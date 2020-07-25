@@ -9,6 +9,7 @@ class Car(models.Model):
     transmission = models.CharField(max_length=255)
     horse_power = models.IntegerField()
     cylinders = models.IntegerField()
+    car_image = models.ImageField(upload_to = 'vehicles/', default = '')
 
     def __str__(self):
         return self.name
