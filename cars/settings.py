@@ -24,7 +24,7 @@ import django_heroku
 SECRET_KEY = os.environ.get('MYKEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['*']
 
