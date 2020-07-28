@@ -19,7 +19,7 @@ from firebase_admin import storage
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-cred = credentials.Certificate(os.environ.get('KEY'))
+cred = credentials.Certificate(os.path.join(BASE_DIR, 'key/private_key.json'))
 firebase_admin.initialize_app(cred, {
     'storageBucket':'cars-ahmed.appspot.com'
 })
@@ -142,21 +142,14 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
-STATIC_URL = '/static/'
 
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-
-STATICFILES_DIRS = (
-    os.path.join(BASE_DIR, 'static'),
-)
-
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+STATIC_ROOT = '/static/'
 
 DEFAULT_FILE_STORAGE = 'django_gcloud_storage.DjangoGCloudStorage'
 
 GCS_PROJECT = "cars-ahmed"
 GCS_BUCKET = storage.bucket()
-GCS_CREDENTIALS_FILE_PATH = os.environ.get('KEY')
+GCS_CREDENTIALS_FILE_PATH = os.path.join(BASE_DIR, 'key/private_key.json')
 
 MEDIA_URL = '/media/'
 
