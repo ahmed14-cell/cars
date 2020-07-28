@@ -11,11 +11,19 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 """
 
 import os
+import django_heroku
 
+import firebase_admin
+from firebase_admin import credentials
+from firebase_admin import storage
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-import django_heroku
+cred = credentials.Certificate(os.environ.get('KEY'))
+firebase_admin.initialize_app(cred, {
+    'storageBucket':'cars-ahmed.appspot.com'
+})
+
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
@@ -136,7 +144,7 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-TATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'static'),
@@ -144,8 +152,14 @@ STATICFILES_DIRS = (
 
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
+DEFAULT_FILE_STORAGE = 'django_gcloud_storage.DjangoGCloudStorage'
+
+GCS_PROJECT = "cars-ahmed"
+GCS_BUCKET = storage.bucket()
+GCS_CREDENTIALS_FILE_PATH = os.environ.get('KEY')
+
 MEDIA_URL = '/media/'
 
-MEDIA_ROOT = os.path.join(BASE_DIR, 'vehicles')
+MEDIA_ROOT = 'gs://cars-ahmed.appspot.com' + MEDIA_URL
 
 django_heroku.settings(locals())
